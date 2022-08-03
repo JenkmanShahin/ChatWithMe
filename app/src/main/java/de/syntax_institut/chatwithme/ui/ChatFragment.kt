@@ -14,6 +14,7 @@ class ChatFragment : Fragment() {
 
     // Hier wird das ViewModel, in dem die Logik stattfindet, geholt
     // TODO
+    private val viewModel: SharedViewModel by activityViewModels()
 
     // Das binding für das QuizFragment wird deklariert
     private lateinit var binding: FragmentChatBinding
@@ -67,6 +68,9 @@ class ChatFragment : Fragment() {
 
         // Der BtnBack bekommt einen Click Listener
         // TODO
+        binding.btnBack.setOnClickListener{
+            findNavController().navigateUp()
+        }
     }
 
     /**

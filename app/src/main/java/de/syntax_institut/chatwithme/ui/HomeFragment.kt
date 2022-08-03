@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import de.syntax_institut.chatwithme.adapter.ContactAdapter
 import de.syntax_institut.chatwithme.databinding.FragmentHomeBinding
 
@@ -13,6 +14,7 @@ class HomeFragment : Fragment() {
 
     // Hier wird das ViewModel, in dem die Logik stattfindet, eingebunden
     // TODO
+    private val viewModel: SharedViewModel by activityViewModels()
 
     // Das binding für das QuizFragment wird deklariert
     private lateinit var binding: FragmentHomeBinding
@@ -39,5 +41,8 @@ class HomeFragment : Fragment() {
 
         // Die RecyclerView bekommt den ContactAdapter zugewiesen
         // TODO
+        binding.rvContacts.adapter = ContactAdapter(viewModel.contactList)
+            }
+
     }
-}
+

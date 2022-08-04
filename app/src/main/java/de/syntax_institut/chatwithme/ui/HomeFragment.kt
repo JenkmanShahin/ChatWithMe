@@ -42,6 +42,7 @@ class HomeFragment : Fragment() {
         // Die RecyclerView bekommt den ContactAdapter zugewiesen
         // TODO
         binding.rvContacts.adapter = ContactAdapter(viewModel.contactList)
+
             }
 
     }

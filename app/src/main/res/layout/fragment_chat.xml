@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/message"
                 android:maxLines="3"
-                android:text="@={viewModel.inputTextChanged}" />
+                android:text="@={viewModel.inputText}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton

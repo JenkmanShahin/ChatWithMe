@@ -41,24 +41,22 @@ class SharedViewModel : ViewModel() {
     // Der aktuell ausgewählte Kontakt wird in einer verschachtelten Variable gespeichert
     // TODO
 
-
-
     private lateinit var _currentContact: Contact
     val currentContact: Contact
     get() = _currentContact
 
     // Der Zustand der Draft Message wird in einer verschachtelten Variable gespeichert
     // TODO
-    private  val _draftMessageState =  MutableLiveData(DraftState.DELETED)
+    private val _draftMessageState =  MutableLiveData<DraftState>(DraftState.DELETED)
     val draftMessageState: LiveData<DraftState>
     get() = _draftMessageState
 
-
     // Der Eingabe Text wird in einer Variablen gespeichert
     // TODO
-    private val _inputText = MutableLiveData(String.Companion)
-    val inputText: LiveData<String.Companion>
-    get() = _inputText
+    var inputText = MutableLiveData<String>()
+
+
+
 
 
     /**
@@ -66,6 +64,10 @@ class SharedViewModel : ViewModel() {
      */
     fun initializeChat(contactIndex: Int) {
         // TODO
+       _currentContact = contactList[contactIndex]
+        inputText.value = ""
+        _draftMessageState.value = DraftState.DELETED
+
     }
 
     /**
@@ -73,7 +75,15 @@ class SharedViewModel : ViewModel() {
      */
     fun closeChat() {
         // TODO
+        if (draftMessageState.value == DraftState.CREATED
+            || draftMessageState.value == DraftState.CHANGED){
+
+            currentContact.chatHistory.removeAt(0)
+        }
+        _draftMessageState.value = DraftState.DELETED
+
     }
+
 
     /**
      * Diese Funktion wird aufgerufen, wenn sich der Eingabe Text ändert.
@@ -81,6 +91,24 @@ class SharedViewModel : ViewModel() {
      */
     fun inputTextChanged(text: String) {
         // TODO
+        if (_draftMessageState.value == DraftState.CREATED) {
+            if (text != ""){
+
+                _currentContact.chatHistory[0].messageText = text
+                _draftMessageState.value = DraftState.CHANGED
+
+            }
+            else {
+                _currentContact.chatHistory.removeAt(0)
+                _draftMessageState.value = DraftState.DELETED
+            }
+        }
+        else{
+            if (text != "") {
+                _currentContact.chatHistory.add(0, Message(text, false))
+                _draftMessageState.value = DraftState.CREATED
+            }
+        }
     }
 
     /**
@@ -89,5 +117,8 @@ class SharedViewModel : ViewModel() {
      */
     fun sendDraftMessage() {
         // TODO
+        _currentContact.chatHistory[0].isDraft = false
+        _draftMessageState.value = DraftState.SENT
+        inputText.value = ""
     }
 }

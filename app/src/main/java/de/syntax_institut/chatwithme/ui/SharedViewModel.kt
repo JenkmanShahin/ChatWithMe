@@ -58,7 +58,6 @@ class SharedViewModel : ViewModel() {
 
 
 
-
     /**
      * Diese Funktion initialisiert den Chat und setzt die Variablen dementsprechend
      */
@@ -91,7 +90,8 @@ class SharedViewModel : ViewModel() {
      */
     fun inputTextChanged(text: String) {
         // TODO
-        if (_draftMessageState.value == DraftState.CREATED) {
+        if (draftMessageState.value == DraftState.CREATED
+            || draftMessageState.value == DraftState.CHANGED) {
             if (text != ""){
 
                 _currentContact.chatHistory[0].messageText = text
@@ -105,7 +105,7 @@ class SharedViewModel : ViewModel() {
         }
         else{
             if (text != "") {
-                _currentContact.chatHistory.add(0, Message(text, false))
+                _currentContact.chatHistory.add(0, Message(text, true))
                 _draftMessageState.value = DraftState.CREATED
             }
         }

@@ -111,6 +111,7 @@ class SharedViewModel : ViewModel() {
         }
     }
 
+
     /**
      * Diese Funktion "schickt die Draft Message ab",
      * indem die Variablen dementsprechend gesetzt werden
